@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home - My Website</title>
+    <title>DANIEL KIM - Composer • Arranger • Pianist</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <nav class="navbar">
         <div class="nav-container">
-            <div class="logo">MyWebsite</div>
+            <div class="logo">DANIEL KIM</div>
             <ul class="nav-menu">
                 <li><a href="index.html" class="nav-link active">Home</a></li>
                 <li><a href="works.html" class="nav-link">Works</a></li>
@@ -21,19 +21,63 @@
 
     <main>
         <section class="hero">
-            <h1>Welcome to My Website</h1>
-            <p>Explore my works, requests, and events</p>
+            <div class="hero-content">
+                <div class="hero-header">
+                    <h1>DANIEL KIM</h1>
+                    <p class="subtitle">Composer • Arranger • Pianist</p>
+                </div>
+                <div class="hero-bottom">
+                    <div class="hero-profile">
+                        <img src="Headshot_B_small.jpg" alt="Daniel Kim" class="profile-image">
+                    </div>
+                    <div class="hero-buttons">
+                        <a href="works.html" class="profile-btn works-btn">Works</a>
+                        <a href="requests.html" class="profile-btn requests-btn">Requests</a>
+                        <a href="events.html" class="profile-btn events-btn">Events</a>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <section class="content">
-            <h2>About This Site</h2>
-            <p>This is a simple website showcasing my portfolio, ongoing projects, client requests, and upcoming events.</p>
-            <p>Use the navigation menu above to explore different sections.</p>
+            <h2>About</h2>
+            <div id="bio-content">
+                <p>Loading...</p>
+            </div>
+        </section>
+
+        <section class="content contact-section">
+            <h2>Get in Touch</h2>
+            <div class="contact-info">
+                <p><strong>Phone:</strong> <a href="tel:7139797934">(713) 979-7934</a> (text preferred)</p>
+                <p><strong>Email:</strong> <a href="mailto:parakeetpress@gmail.com">parakeetpress@gmail.com</a></p>
+            </div>
+            <div class="social-links">
+                <a href="https://www.youtube.com/@dankim291" target="_blank">YouTube</a>
+                <a href="https://discord.gg/xzfkabWsRA" target="_blank">Discord</a>
+                <a href="https://www.instagram.com/dankim291/" target="_blank">Instagram</a>
+            </div>
         </section>
     </main>
 
     <footer>
-        <p>&copy; 2025 My Website. All rights reserved.</p>
+        <p>&copy; 2025 Daniel Kim. All rights reserved.</p>
     </footer>
+
+    <script>
+        // Load bio from WebsiteBio.txt file
+        fetch('WebsiteBio.txt')
+            .then(response => response.text())
+            .then(text => {
+                // Split by double line breaks to create paragraphs
+                const paragraphs = text.trim().split('\n').filter(line => line.trim() !== '');
+                const bioHTML = paragraphs.map(p => `<p>${p.trim()}</p>`).join('');
+                document.getElementById('bio-content').innerHTML = bioHTML;
+            })
+            .catch(error => {
+                console.error('Error loading bio:', error);
+                document.getElementById('bio-content').innerHTML = '<p>Unable to load bio content.</p>';
+            });
+    </script>
 </body>
 </html>
