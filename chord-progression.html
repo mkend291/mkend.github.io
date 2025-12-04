@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chord Progression Generator - Dan Kim</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/midiplayer-web@1.1.3/dist/midiplayer.min.js"></script>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="logo">Dan Kim</div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="works.html">Works</a></li>
+                <li><a href="requests.html">Requests</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle">More <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="events.html">Events</a></li>
+                        <li><a href="converter.html">Text to Music Converter</a></li>
+                        <li><a href="chord-progression.html">Chord Progression Generator</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1>Chord Progression Generator</h1>
+        <p class="subtitle">Generate harmonic progressions using tonal theory, Riemannian functions, and advanced harmonic techniques</p>
+
+        <div class="progression-container">
+            <div class="progression-input">
+                <h2>Select Chords</h2>
+                
+                <div class="chord-selection">
+                    <div class="chord-group">
+                        <label for="startChord">Starting Chord</label>
+                        <select id="startChord" class="chord-select">
+                            <optgroup label="Major Triads">
+                                <option value="C">C Major</option>
+                                <option value="Db">Db Major</option>
+                                <option value="D">D Major</option>
+                                <option value="Eb">Eb Major</option>
+                                <option value="E">E Major</option>
+                                <option value="F">F Major</option>
+                                <option value="Gb">Gb Major</option>
+                                <option value="G">G Major</option>
+                                <option value="Ab">Ab Major</option>
+                                <option value="A">A Major</option>
+                                <option value="Bb">Bb Major</option>
+                                <option value="B">B Major</option>
+                            </optgroup>
+                            <optgroup label="Minor Triads">
+                                <option value="Cm">C minor</option>
+                                <option value="C#m">C# minor</option>
+                                <option value="Dm">D minor</option>
+                                <option value="Ebm">Eb minor</option>
+                                <option value="Em">E minor</option>
+                                <option value="Fm">F minor</option>
+                                <option value="F#m">F# minor</option>
+                                <option value="Gm">G minor</option>
+                                <option value="G#m">G# minor</option>
+                                <option value="Am">A minor</option>
+                                <option value="Bbm">Bb minor</option>
+                                <option value="Bm">B minor</option>
+                            </optgroup>
+                            <optgroup label="Dominant 7th">
+                                <option value="C7">C7</option>
+                                <option value="Db7">Db7</option>
+                                <option value="D7">D7</option>
+                                <option value="Eb7">Eb7</option>
+                                <option value="E7">E7</option>
+                                <option value="F7">F7</option>
+                                <option value="Gb7">Gb7</option>
+                                <option value="G7">G7</option>
+                                <option value="Ab7">Ab7</option>
+                                <option value="A7">A7</option>
+                                <option value="Bb7">Bb7</option>
+                                <option value="B7">B7</option>
+                            </optgroup>
+                            <optgroup label="Diminished">
+                                <option value="Cdim">C dim</option>
+                                <option value="C#dim">C# dim</option>
+                                <option value="Ddim">D dim</option>
+                                <option value="Ebdim">Eb dim</option>
+                                <option value="Edim">E dim</option>
+                                <option value="Fdim">F dim</option>
+                                <option value="F#dim">F# dim</option>
+                                <option value="Gdim">G dim</option>
+                                <option value="G#dim">G# dim</option>
+                                <option value="Adim">A dim</option>
+                                <option value="Bbdim">Bb dim</option>
+                                <option value="Bdim">B dim</option>
+                            </optgroup>
+                        </select>
+                    </div>
+
+                    <div class="chord-arrow">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+
+                    <div class="chord-group">
+                        <label for="endChord">Destination Chord</label>
+                        <select id="endChord" class="chord-select">
+                            <optgroup label="Major Triads">
+                                <option value="C" selected>C Major</option>
+                                <option value="Db">Db Major</option>
+                                <option value="D">D Major</option>
+                                <option value="Eb">Eb Major</option>
+                                <option value="E">E Major</option>
+                                <option value="F">F Major</option>
+                                <option value="Gb">Gb Major</option>
+                                <option value="G">G Major</option>
+                                <option value="Ab">Ab Major</option>
+                                <option value="A">A Major</option>
+                                <option value="Bb">Bb Major</option>
+                                <option value="B">B Major</option>
+                            </optgroup>
+                            <optgroup label="Minor Triads">
+                                <option value="Cm">C minor</option>
+                                <option value="C#m">C# minor</option>
+                                <option value="Dm">D minor</option>
+                                <option value="Ebm">Eb minor</option>
+                                <option value="Em">E minor</option>
+                                <option value="Fm">F minor</option>
+                                <option value="F#m">F# minor</option>
+                                <option value="Gm">G minor</option>
+                                <option value="G#m">G# minor</option>
+                                <option value="Am">A minor</option>
+                                <option value="Bbm">Bb minor</option>
+                                <option value="Bm">B minor</option>
+                            </optgroup>
+                            <optgroup label="Dominant 7th">
+                                <option value="C7">C7</option>
+                                <option value="Db7">Db7</option>
+                                <option value="D7">D7</option>
+                                <option value="Eb7">Eb7</option>
+                                <option value="E7">E7</option>
+                                <option value="F7">F7</option>
+                                <option value="Gb7">Gb7</option>
+                                <option value="G7">G7</option>
+                                <option value="Ab7">Ab7</option>
+                                <option value="A7">A7</option>
+                                <option value="Bb7">Bb7</option>
+                                <option value="B7">B7</option>
+                            </optgroup>
+                            <optgroup label="Diminished">
+                                <option value="Cdim">C dim</option>
+                                <option value="C#dim">C# dim</option>
+                                <option value="Ddim">D dim</option>
+                                <option value="Ebdim">Eb dim</option>
+                                <option value="Edim">E dim</option>
+                                <option value="Fdim">F dim</option>
+                                <option value="F#dim">F# dim</option>
+                                <option value="Gdim">G dim</option>
+                                <option value="G#dim">G# dim</option>
+                                <option value="Adim">A dim</option>
+                                <option value="Bbdim">Bb dim</option>
+                                <option value="Bdim">B dim</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="progression-options">
+                    <div class="option-group">
+                        <label for="progressionLength">Maximum Steps</label>
+                        <input type="range" id="progressionLength" min="2" max="8" value="4">
+                        <span id="lengthValue">4</span>
+                    </div>
+
+                    <div class="option-group">
+                        <label>
+                            <input type="checkbox" id="allowNeapolitan" checked>
+                            Allow Neapolitan Chords (bII)
+                        </label>
+                    </div>
+
+                    <div class="option-group">
+                        <label>
+                            <input type="checkbox" id="allowAugmented" checked>
+                            Allow Italian/German/French Aug 6th
+                        </label>
+                    </div>
+
+                    <div class="option-group">
+                        <label>
+                            <input type="checkbox" id="allowRiemannian" checked>
+                            Use Riemannian Transformations
+                        </label>
+                    </div>
+
+                    <div class="option-group">
+                        <label>
+                            <input type="checkbox" id="allowModal" checked>
+                            Allow Modal Mixture
+                        </label>
+                    </div>
+                </div>
+
+                <button id="generateBtn" class="progression-btn">
+                    <i class="fas fa-wand-magic-sparkles"></i> Generate Progression
+                </button>
+            </div>
+
+            <div class="progression-output">
+                <h2>Generated Progression</h2>
+                <div id="progressionResult" class="progression-result">
+                    <p class="placeholder-text">Select starting and destination chords, then click "Generate Progression" to see results.</p>
+                </div>
+
+                <div id="progressionControls" class="progression-controls" style="display: none;">
+                    <button id="playBtn" class="progression-btn secondary">
+                        <i class="fas fa-play"></i> Play
+                    </button>
+                    <button id="stopBtn" class="progression-btn secondary">
+                        <i class="fas fa-stop"></i> Stop
+                    </button>
+                    <button id="copyBtn" class="progression-btn secondary">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+                </div>
+
+                <div id="theoryAnalysis" class="theory-analysis" style="display: none;">
+                    <h3>Harmonic Analysis</h3>
+                    <div id="analysisContent" class="analysis-content"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="progression-info">
+            <h2>How It Works</h2>
+            <div class="info-grid">
+                <div class="info-card">
+                    <i class="fas fa-book"></i>
+                    <h3>Tonal Harmony</h3>
+                    <p>Uses traditional functional harmony with tonic, predominant, and dominant relationships (I-IV-V-I, etc.)</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-arrows-rotate"></i>
+                    <h3>Riemannian Theory</h3>
+                    <p>Applies transformations like P (Parallel), R (Relative), and L (Leittonwechsel) for smooth voice leading</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-music"></i>
+                    <h3>Neapolitan Chords</h3>
+                    <p>Incorporates bII chords (Neapolitan sixth) for dramatic pre-dominant function</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-plus"></i>
+                    <h3>Augmented Sixths</h3>
+                    <p>Uses Italian (+6), German (+6/5), and French (+6/4/3) augmented sixth chords</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-circle-half-stroke"></i>
+                    <h3>Modal Mixture</h3>
+                    <p>Borrows chords from parallel major/minor modes for color and variety</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-route"></i>
+                    <h3>Smart Pathfinding</h3>
+                    <p>Analyzes multiple routes and selects the most musically coherent progression</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Dan Kim. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Note mappings for audio playback
+        const noteFrequencies = {
+            'C': 261.63, 'C#': 277.18, 'Db': 277.18,
+            'D': 293.66, 'D#': 311.13, 'Eb': 311.13,
+            'E': 329.63, 'F': 349.23, 'F#': 369.99, 'Gb': 369.99,
+            'G': 392.00, 'G#': 415.30, 'Ab': 415.30,
+            'A': 440.00, 'A#': 466.16, 'Bb': 466.16,
+            'B': 493.88
+        };
+
+        // Chord definitions
+        const chordDefinitions = {
+            // Major triads
+            'C': ['C', 'E', 'G'], 'Db': ['Db', 'F', 'Ab'], 'D': ['D', 'F#', 'A'],
+            'Eb': ['Eb', 'G', 'Bb'], 'E': ['E', 'G#', 'B'], 'F': ['F', 'A', 'C'],
+            'Gb': ['Gb', 'Bb', 'Db'], 'G': ['G', 'B', 'D'], 'Ab': ['Ab', 'C', 'Eb'],
+            'A': ['A', 'C#', 'E'], 'Bb': ['Bb', 'D', 'F'], 'B': ['B', 'D#', 'F#'],
+            // Minor triads
+            'Cm': ['C', 'Eb', 'G'], 'C#m': ['C#', 'E', 'G#'], 'Dm': ['D', 'F', 'A'],
+            'Ebm': ['Eb', 'Gb', 'Bb'], 'Em': ['E', 'G', 'B'], 'Fm': ['F', 'Ab', 'C'],
+            'F#m': ['F#', 'A', 'C#'], 'Gm': ['G', 'Bb', 'D'], 'G#m': ['G#', 'B', 'D#'],
+            'Am': ['A', 'C', 'E'], 'Bbm': ['Bb', 'Db', 'F'], 'Bm': ['B', 'D', 'F#'],
+            // Dominant 7th
+            'C7': ['C', 'E', 'G', 'Bb'], 'Db7': ['Db', 'F', 'Ab', 'B'], 'D7': ['D', 'F#', 'A', 'C'],
+            'Eb7': ['Eb', 'G', 'Bb', 'Db'], 'E7': ['E', 'G#', 'B', 'D'], 'F7': ['F', 'A', 'C', 'Eb'],
+            'Gb7': ['Gb', 'Bb', 'Db', 'E'], 'G7': ['G', 'B', 'D', 'F'], 'Ab7': ['Ab', 'C', 'Eb', 'Gb'],
+            'A7': ['A', 'C#', 'E', 'G'], 'Bb7': ['Bb', 'D', 'F', 'Ab'], 'B7': ['B', 'D#', 'F#', 'A'],
+            // Diminished
+            'Cdim': ['C', 'Eb', 'Gb'], 'C#dim': ['C#', 'E', 'G'], 'Ddim': ['D', 'F', 'Ab'],
+            'Ebdim': ['Eb', 'Gb', 'A'], 'Edim': ['E', 'G', 'Bb'], 'Fdim': ['F', 'Ab', 'B'],
+            'F#dim': ['F#', 'A', 'C'], 'Gdim': ['G', 'Bb', 'Db'], 'G#dim': ['G#', 'B', 'D'],
+            'Adim': ['A', 'C', 'Eb'], 'Bbdim': ['Bb', 'Db', 'E'], 'Bdim': ['B', 'D', 'F']
+        };
+
+        // Progression generator
+        class ProgressionGenerator {
+            constructor(start, end, options) {
+                this.start = start;
+                this.end = end;
+                this.options = options;
+                this.maxSteps = options.maxSteps || 4;
+            }
+
+            generate() {
+                const paths = [];
+                
+                // Try different strategies
+                if (this.options.allowRiemannian) {
+                    paths.push(this.generateRiemannianPath());
+                }
+                paths.push(this.generateFunctionalPath());
+                if (this.options.allowNeapolitan) {
+                    paths.push(this.generateNeapolitanPath());
+                }
+                if (this.options.allowAugmented) {
+                    paths.push(this.generateAugmentedSixthPath());
+                }
+                
+                // Filter out null paths and select best
+                const validPaths = paths.filter(p => p !== null && p.length > 0);
+                if (validPaths.length === 0) {
+                    return this.generateSimplePath();
+                }
+                
+                return this.selectBestPath(validPaths);
+            }
+
+            generateRiemannianPath() {
+                // Implement Riemannian transformations (P, R, L)
+                const path = [this.start];
+                let current = this.start;
+                let attempts = 0;
+                
+                while (current !== this.end && path.length < this.maxSteps && attempts < 20) {
+                    attempts++;
+                    const transformations = this.getAvailableTransformations(current);
+                    
+                    // Pick transformation that gets closer to target
+                    const next = this.selectCloserChord(transformations, this.end);
+                    if (next && !path.includes(next)) {
+                        path.push(next);
+                        current = next;
+                    } else {
+                        break;
+                    }
+                }
+                
+                if (current !== this.end && path.length < this.maxSteps) {
+                    path.push(this.end);
+                }
+                
+                return path.length <= this.maxSteps ? path : null;
+            }
+
+            generateFunctionalPath() {
+                // Traditional tonal harmony: T-PD-D-T or variations
+                const path = [this.start];
+                
+                // Analyze start and end in terms of function
+                const startFunc = this.analyzeFunction(this.start);
+                const endFunc = this.analyzeFunction(this.end);
+                
+                // Build path using functional progression
+                if (startFunc === 'tonic' && endFunc === 'tonic') {
+                    // Add predominant and dominant
+                    const pd = this.getPreDominant(this.start);
+                    const dom = this.getDominant(this.end);
+                    if (pd) path.push(pd);
+                    if (dom) path.push(dom);
+                    path.push(this.end);
+                } else if (startFunc === 'dominant' && endFunc === 'tonic') {
+                    path.push(this.end);
+                } else {
+                    // Generic functional path
+                    const intermediate = this.getIntermediateChords(this.start, this.end);
+                    path.push(...intermediate);
+                    path.push(this.end);
+                }
+                
+                return path.slice(0, this.maxSteps);
+            }
+
+            generateNeapolitanPath() {
+                // Use Neapolitan sixth (bII) as predominant
+                const path = [this.start];
+                const neapolitan = this.getNeapolitan(this.end);
+                
+                if (neapolitan && this.start !== neapolitan) {
+                    const bridge = this.getBridgeChord(this.start, neapolitan);
+                    if (bridge) path.push(bridge);
+                    path.push(neapolitan);
+                    
+                    const dom = this.getDominant(this.end);
+                    if (dom) path.push(dom);
+                    path.push(this.end);
+                }
+                
+                return path.length <= this.maxSteps && path.length > 1 ? path : null;
+            }
+
+            generateAugmentedSixthPath() {
+                // Use augmented sixth chords resolving to dominant
+                const path = [this.start];
+                const aug6 = this.getAugmentedSixth(this.end);
+                
+                if (aug6) {
+                    if (this.start !== aug6) {
+                        const bridge = this.getBridgeChord(this.start, aug6);
+                        if (bridge) path.push(bridge);
+                        path.push(aug6);
+                    }
+                    
+                    const dom = this.getDominant(this.end);
+                    if (dom) path.push(dom);
+                    path.push(this.end);
+                }
+                
+                return path.length <= this.maxSteps && path.length > 1 ? path : null;
+            }
+
+            generateSimplePath() {
+                // Fallback: direct connection or with one intermediate
+                const path = [this.start];
+                
+                if (this.start !== this.end) {
+                    const intermediate = this.getClosestCommonTone(this.start, this.end);
+                    if (intermediate && intermediate !== this.start && intermediate !== this.end) {
+                        path.push(intermediate);
+                    }
+                    path.push(this.end);
+                }
+                
+                return path;
+            }
+
+            getAvailableTransformations(chord) {
+                const transforms = [];
+                
+                // P transformation (parallel major/minor)
+                const parallel = this.getParallel(chord);
+                if (parallel) transforms.push(parallel);
+                
+                // R transformation (relative major/minor)
+                const relative = this.getRelative(chord);
+                if (relative) transforms.push(relative);
+                
+                // L transformation (leading tone exchange)
+                const leitton = this.getLeittonwechsel(chord);
+                if (leitton) transforms.push(leitton);
+                
+                return transforms;
+            }
+
+            getParallel(chord) {
+                // Major to minor or vice versa
+                if (chord.includes('m') && !chord.includes('dim')) {
+                    return chord.replace('m', '');
+                } else if (!chord.includes('m') && !chord.includes('7') && !chord.includes('dim')) {
+                    return chord + 'm';
+                }
+                return null;
+            }
+
+            getRelative(chord) {
+                // Relative major/minor (3rd relationship)
+                const root = this.getRoot(chord);
+                const isMinor = chord.includes('m') && !chord.includes('dim');
+                
+                if (isMinor) {
+                    // Minor to relative major (up minor 3rd)
+                    const relatives = {'C': 'Eb', 'C#': 'E', 'D': 'F', 'Eb': 'Gb', 'E': 'G', 
+                                      'F': 'Ab', 'F#': 'A', 'G': 'Bb', 'G#': 'B', 'A': 'C', 
+                                      'Bb': 'Db', 'B': 'D'};
+                    return relatives[root] || null;
+                } else if (!chord.includes('7') && !chord.includes('dim')) {
+                    // Major to relative minor (down minor 3rd)
+                    const relatives = {'C': 'Am', 'Db': 'Bbm', 'D': 'Bm', 'Eb': 'Cm', 'E': 'C#m',
+                                      'F': 'Dm', 'Gb': 'Ebm', 'G': 'Em', 'Ab': 'Fm', 'A': 'F#m',
+                                      'Bb': 'Gm', 'B': 'G#m'};
+                    return relatives[root] || null;
+                }
+                return null;
+            }
+
+            getLeittonwechsel(chord) {
+                // Leading tone exchange (transforms major to minor with shared leading tone)
+                const root = this.getRoot(chord);
+                const isMinor = chord.includes('m') && !chord.includes('dim');
+                
+                if (!isMinor && !chord.includes('7') && !chord.includes('dim')) {
+                    // Major: move up semitone to minor
+                    const leitton = {'C': 'C#m', 'Db': 'Dm', 'D': 'Ebm', 'Eb': 'Em', 'E': 'Fm',
+                                    'F': 'F#m', 'Gb': 'Gm', 'G': 'G#m', 'Ab': 'Am', 'A': 'Bbm',
+                                    'Bb': 'Bm', 'B': 'Cm'};
+                    return leitton[root] || null;
+                }
+                return null;
+            }
+
+            selectCloserChord(chords, target) {
+                if (chords.length === 0) return null;
+                
+                // Find chord with most common tones to target
+                let best = chords[0];
+                let maxCommon = this.countCommonTones(best, target);
+                
+                for (const chord of chords) {
+                    const common = this.countCommonTones(chord, target);
+                    if (common > maxCommon) {
+                        maxCommon = common;
+                        best = chord;
+                    }
+                }
+                
+                return best;
+            }
+
+            countCommonTones(chord1, chord2) {
+                const notes1 = chordDefinitions[chord1] || [];
+                const notes2 = chordDefinitions[chord2] || [];
+                
+                let count = 0;
+                for (const note of notes1) {
+                    if (notes2.includes(note)) count++;
+                }
+                return count;
+            }
+
+            analyzeFunction(chord) {
+                // Simplified functional analysis
+                const root = this.getRoot(chord);
+                
+                // Dominant function: V, V7, vii°
+                if (chord.includes('7') && !chord.includes('M7')) return 'dominant';
+                if (chord.includes('dim')) return 'dominant';
+                
+                // Check if it's likely tonic, predominant, or dominant based on root
+                // This is a simplification; real analysis depends on context
+                const tonicRoots = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
+                return tonicRoots.includes(root) ? 'tonic' : 'predominant';
+            }
+
+            getPreDominant(tonicChord) {
+                // Return IV or ii of the key
+                const root = this.getRoot(tonicChord);
+                const isMinor = tonicChord.includes('m');
+                
+                const pdMap = {
+                    'C': isMinor ? 'Fm' : 'F', 'Db': isMinor ? 'Gbm' : 'Gb', 
+                    'D': isMinor ? 'Gm' : 'G', 'Eb': isMinor ? 'Abm' : 'Ab',
+                    'E': isMinor ? 'Am' : 'A', 'F': isMinor ? 'Bbm' : 'Bb',
+                    'Gb': isMinor ? 'Bm' : 'B', 'G': isMinor ? 'Cm' : 'C',
+                    'Ab': isMinor ? 'Dbm' : 'Db', 'A': isMinor ? 'Dm' : 'D',
+                    'Bb': isMinor ? 'Ebm' : 'Eb', 'B': isMinor ? 'Em' : 'E'
+                };
+                
+                return pdMap[root] || null;
+            }
+
+            getDominant(tonicChord) {
+                // Return V7 of the key
+                const root = this.getRoot(tonicChord);
+                
+                const domMap = {
+                    'C': 'G7', 'Db': 'Ab7', 'D': 'A7', 'Eb': 'Bb7',
+                    'E': 'B7', 'F': 'C7', 'Gb': 'Db7', 'G': 'D7',
+                    'Ab': 'Eb7', 'A': 'E7', 'Bb': 'F7', 'B': 'F#7'
+                };
+                
+                return domMap[root] || null;
+            }
+
+            getNeapolitan(tonicChord) {
+                // Return bII (Neapolitan) chord
+                const root = this.getRoot(tonicChord);
+                
+                const neapMap = {
+                    'C': 'Db', 'Db': 'D', 'D': 'Eb', 'Eb': 'E',
+                    'E': 'F', 'F': 'Gb', 'Gb': 'G', 'G': 'Ab',
+                    'Ab': 'A', 'A': 'Bb', 'Bb': 'B', 'B': 'C'
+                };
+                
+                return neapMap[root] || null;
+            }
+
+            getAugmentedSixth(tonicChord) {
+                // Simplified: return German +6 chord notation
+                const root = this.getRoot(tonicChord);
+                return `Ger+6/${root}`;
+            }
+
+            getBridgeChord(from, to) {
+                // Find intermediate chord with common tones
+                const allChords = Object.keys(chordDefinitions);
+                let best = null;
+                let maxScore = 0;
+                
+                for (const chord of allChords) {
+                    if (chord === from || chord === to) continue;
+                    const score = this.countCommonTones(from, chord) + this.countCommonTones(chord, to);
+                    if (score > maxScore) {
+                        maxScore = score;
+                        best = chord;
+                    }
+                }
+                
+                return best;
+            }
+
+            getIntermediateChords(from, to) {
+                // Get 1-2 intermediate chords
+                const intermediate = [];
+                const bridge = this.getBridgeChord(from, to);
+                if (bridge) intermediate.push(bridge);
+                return intermediate;
+            }
+
+            getClosestCommonTone(from, to) {
+                // Find chord sharing tones with both
+                return this.getBridgeChord(from, to);
+            }
+
+            selectBestPath(paths) {
+                // Select path with best voice leading and functional logic
+                let bestPath = paths[0];
+                let bestScore = this.scorePath(bestPath);
+                
+                for (const path of paths) {
+                    const score = this.scorePath(path);
+                    if (score > bestScore) {
+                        bestScore = score;
+                        bestPath = path;
+                    }
+                }
+                
+                return bestPath;
+            }
+
+            scorePath(path) {
+                // Score based on smoothness and functional coherence
+                let score = 0;
+                
+                // Prefer shorter paths
+                score += (10 - path.length);
+                
+                // Reward common tones between adjacent chords
+                for (let i = 0; i < path.length - 1; i++) {
+                    score += this.countCommonTones(path[i], path[i + 1]) * 2;
+                }
+                
+                return score;
+            }
+
+            getRoot(chord) {
+                // Extract root note from chord symbol
+                return chord.replace(/m|7|dim|\+6.*$/g, '');
+            }
+
+            analyzeProgression(path) {
+                // Generate harmonic analysis
+                const analysis = [];
+                
+                for (let i = 0; i < path.length; i++) {
+                    const chord = path[i];
+                    const func = this.analyzeFunction(chord);
+                    const previous = i > 0 ? path[i - 1] : null;
+                    
+                    let description = '';
+                    if (chord.includes('Ger+6')) {
+                        description = 'German augmented sixth chord (pre-dominant function)';
+                    } else if (previous && this.isNeapolitanRelation(previous, chord)) {
+                        description = 'Neapolitan chord (bII, dramatic pre-dominant)';
+                    } else if (chord.includes('7')) {
+                        description = 'Dominant seventh (creates tension, resolves down by fifth)';
+                    } else if (chord.includes('dim')) {
+                        description = 'Diminished chord (leading-tone function)';
+                    } else if (previous) {
+                        const commonTones = this.countCommonTones(previous, chord);
+                        if (commonTones >= 2) {
+                            description = `${commonTones} common tones (smooth voice leading)`;
+                        } else {
+                            description = `${func} function`;
+                        }
+                    } else {
+                        description = `Starting ${func} function`;
+                    }
+                    
+                    analysis.push({ chord, function: func, description });
+                }
+                
+                return analysis;
+            }
+
+            isNeapolitanRelation(chord1, chord2) {
+                const root1 = this.getRoot(chord1);
+                const root2 = this.getRoot(chord2);
+                
+                const neapMap = {
+                    'C': 'Db', 'Db': 'D', 'D': 'Eb', 'Eb': 'E',
+                    'E': 'F', 'F': 'Gb', 'Gb': 'G', 'G': 'Ab',
+                    'Ab': 'A', 'A': 'Bb', 'Bb': 'B', 'B': 'C'
+                };
+                
+                return neapMap[root1] === root2;
+            }
+        }
+
+        // Audio playback
+        let audioContext = null;
+        let scheduledNodes = [];
+
+        function initAudio() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
+        function playChord(chordSymbol, startTime, duration = 1.0) {
+            const notes = chordDefinitions[chordSymbol];
+            if (!notes) return;
+            
+            notes.forEach(note => {
+                const frequency = noteFrequencies[note];
+                if (frequency) {
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+                    
+                    oscillator.frequency.value = frequency;
+                    oscillator.type = 'sine';
+                    
+                    gainNode.gain.setValueAtTime(0, startTime);
+                    gainNode.gain.linearRampToValueAtTime(0.15, startTime + 0.01);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, startTime + duration);
+                    
+                    oscillator.start(startTime);
+                    oscillator.stop(startTime + duration);
+                    
+                    scheduledNodes.push(oscillator);
+                }
+            });
+        }
+
+        function playProgression(progression) {
+            initAudio();
+            stopProgression();
+            
+            const chordDuration = 1.5;
+            let currentTime = audioContext.currentTime + 0.1;
+            
+            progression.forEach((chord, index) => {
+                playChord(chord, currentTime, chordDuration);
+                currentTime += chordDuration;
+            });
+        }
+
+        function stopProgression() {
+            scheduledNodes.forEach(node => {
+                try {
+                    node.stop();
+                } catch (e) {
+                    // Already stopped
+                }
+            });
+            scheduledNodes = [];
+        }
+
+        // UI handling
+        let currentProgression = null;
+        let currentAnalysis = null;
+
+        document.getElementById('progressionLength').addEventListener('input', (e) => {
+            document.getElementById('lengthValue').textContent = e.target.value;
+        });
+
+        document.getElementById('generateBtn').addEventListener('click', () => {
+            const startChord = document.getElementById('startChord').value;
+            const endChord = document.getElementById('endChord').value;
+            const maxSteps = parseInt(document.getElementById('progressionLength').value);
+            
+            const options = {
+                maxSteps: maxSteps,
+                allowNeapolitan: document.getElementById('allowNeapolitan').checked,
+                allowAugmented: document.getElementById('allowAugmented').checked,
+                allowRiemannian: document.getElementById('allowRiemannian').checked,
+                allowModal: document.getElementById('allowModal').checked
+            };
+            
+            const generator = new ProgressionGenerator(startChord, endChord, options);
+            const progression = generator.generate();
+            const analysis = generator.analyzeProgression(progression);
+            
+            currentProgression = progression;
+            currentAnalysis = analysis;
+            
+            displayProgression(progression, analysis);
+        });
+
+        function displayProgression(progression, analysis) {
+            const resultDiv = document.getElementById('progressionResult');
+            const controlsDiv = document.getElementById('progressionControls');
+            const theoryDiv = document.getElementById('theoryAnalysis');
+            const analysisDiv = document.getElementById('analysisContent');
+            
+            // Display chord progression
+            resultDiv.innerHTML = '';
+            const chordSequence = document.createElement('div');
+            chordSequence.className = 'chord-sequence';
+            
+            progression.forEach((chord, index) => {
+                const chordBox = document.createElement('div');
+                chordBox.className = 'chord-box';
+                chordBox.innerHTML = `<span class="chord-symbol">${chord}</span>`;
+                chordSequence.appendChild(chordBox);
+                
+                if (index < progression.length - 1) {
+                    const arrow = document.createElement('div');
+                    arrow.className = 'chord-arrow-small';
+                    arrow.innerHTML = '<i class="fas fa-arrow-right"></i>';
+                    chordSequence.appendChild(arrow);
+                }
+            });
+            
+            resultDiv.appendChild(chordSequence);
+            controlsDiv.style.display = 'flex';
+            
+            // Display analysis
+            analysisDiv.innerHTML = '';
+            analysis.forEach((item, index) => {
+                const analysisItem = document.createElement('div');
+                analysisItem.className = 'analysis-item';
+                analysisItem.innerHTML = `
+                    <strong>${index + 1}. ${item.chord}</strong>
+                    <p>${item.description}</p>
+                `;
+                analysisDiv.appendChild(analysisItem);
+            });
+            
+            theoryDiv.style.display = 'block';
+        }
+
+        document.getElementById('playBtn').addEventListener('click', () => {
+            if (currentProgression) {
+                playProgression(currentProgression);
+            }
+        });
+
+        document.getElementById('stopBtn').addEventListener('click', () => {
+            stopProgression();
+        });
+
+        document.getElementById('copyBtn').addEventListener('click', () => {
+            if (currentProgression) {
+                const text = currentProgression.join(' → ');
+                navigator.clipboard.writeText(text).then(() => {
+                    const btn = document.getElementById('copyBtn');
+                    const originalText = btn.innerHTML;
+                    btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                    setTimeout(() => {
+                        btn.innerHTML = originalText;
+                    }, 2000);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

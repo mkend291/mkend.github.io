@@ -9,12 +9,19 @@
 <body>
     <nav class="navbar">
         <div class="nav-container">
-            <div class="logo">DANIEL KIM</div>
+            <a href="index.html" class="logo">DANIEL KIM</a>
             <ul class="nav-menu">
                 <li><a href="index.html" class="nav-link">Home</a></li>
                 <li><a href="works.html" class="nav-link">Works</a></li>
                 <li><a href="requests.html" class="nav-link">Requests</a></li>
-                <li><a href="events.html" class="nav-link active">Events</a></li>
+                <li class="dropdown">
+                    <a href="#" class="nav-link">More ▾</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="events.html" class="dropdown-link">Events</a></li>
+                        <li><a href="converter.html" class="dropdown-link">Text to Music Converter</a></li>
+                        <li><a href="chord-progression.html" class="dropdown-link">Chord Progression Generator</a></li>
+                    </ul>
+                </li>
             </ul>
         </div>
     </nav>
@@ -22,34 +29,9 @@
     <main>
         <section class="content">
             <h1>Events</h1>
-            <p>Performances and appearances coming soon.</p>
             
-            <div class="events-list">
-                <div class="event-item">
-                    <h3>Upcoming Performance</h3>
-                    <p class="event-date">Date: TBA</p>
-                    <p>Stay tuned for announcements about upcoming concerts and performances.</p>
-                </div>
-                <div class="event-item">
-                    <h3>Workshop</h3>
-                    <p class="event-date">Date: TBA</p>
-                    <p>An interactive workshop on composition and music theory.</p>
-                </div>
-                <div class="event-item">
-                    <h3>Collaboration</h3>
-                    <p class="event-date">Date: TBA</p>
-                    <p>Exciting new collaboration announcement coming soon.</p>
-                </div>
-            </div>
-
-            <div class="cta-section">
-                <h3>Want to stay updated?</h3>
-                <p>Join the Discord server or follow social media for the latest news.</p>
-                <div class="social-links">
-                    <a href="https://www.youtube.com/@dankim291" target="_blank">YouTube</a>
-                    <a href="https://discord.gg/xzfkabWsRA" target="_blank">Discord</a>
-                    <a href="https://www.instagram.com/dankim291/" target="_blank">Instagram</a>
-                </div>
+            <div id="events-container">
+                <p style="color: #7db8ff;">Loading events...</p>
             </div>
         </section>
     </main>
@@ -57,5 +39,134 @@
     <footer>
         <p>&copy; 2025 Daniel Kim. All rights reserved.</p>
     </footer>
+
+    <script>
+        // Load events from CSV
+        fetch('WebsiteEvents.csv', {
+            cache: 'no-store'
+        })
+            .then(response => response.text())
+            .then(csvText => {
+                // Parse CSV handling quoted fields with newlines
+                function parseCSV(text) {
+                    const rows = [];
+                    let currentRow = [];
+                    let currentField = '';
+                    let insideQuotes = false;
+                    
+                    for (let i = 0; i < text.length; i++) {
+                        const char = text[i];
+                        const nextChar = text[i + 1];
+                        
+                        if (char === '"') {
+                            if (insideQuotes && nextChar === '"') {
+                                currentField += '"';
+                                i++;
+                            } else {
+                                insideQuotes = !insideQuotes;
+                            }
+                        } else if (char === ',' && !insideQuotes) {
+                            currentRow.push(currentField);
+                            currentField = '';
+                        } else if ((char === '\n' || char === '\r') && !insideQuotes) {
+                            if (char === '\r' && nextChar === '\n') {
+                                i++;
+                            }
+                            if (currentField || currentRow.length > 0) {
+                                currentRow.push(currentField);
+                                rows.push(currentRow);
+                                currentRow = [];
+                                currentField = '';
+                            }
+                        } else {
+                            currentField += char;
+                        }
+                    }
+                    
+                    if (currentField || currentRow.length > 0) {
+                        currentRow.push(currentField);
+                        rows.push(currentRow);
+                    }
+                    
+                    return rows;
+                }
+                
+                const rows = parseCSV(csvText);
+                const events = [];
+                
+                // Skip header row
+                for (let i = 1; i < rows.length; i++) {
+                    const values = rows[i];
+                    if (values.length >= 6) {
+                        events.push({
+                            title: values[0] || '',
+                            location: values[1] || '',
+                            date: values[2] || '',
+                            works: values[3] || '',
+                            moreInfo: values[4] || '',
+                            performer: values[5] || '',
+                            videoLink: values[6] || ''
+                        });
+                    }
+                }
+                
+                // Sort by date (most recent first)
+                events.sort((a, b) => {
+                    if (!a.date) return 1;
+                    if (!b.date) return -1;
+                    const dateA = new Date(a.date);
+                    const dateB = new Date(b.date);
+                    return dateB - dateA;
+                });
+                
+                // Format date function
+                function formatDate(dateString) {
+                    if (!dateString) return '';
+                    const date = new Date(dateString);
+                    const months = ['January', 'February', 'March', 'April', 'May', 'June', 
+                                  'July', 'August', 'September', 'October', 'November', 'December'];
+                    return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+                }
+                
+                // Display events
+                const container = document.getElementById('events-container');
+                if (events.length === 0) {
+                    container.innerHTML = '<p>No events to display.</p>';
+                } else {
+                    container.innerHTML = '<div class="timeline">' + events.map((event, index) => {
+                        const colors = ['#6a9955', '#d4a959', '#ce9178', '#c586c0', '#4ec9b0', '#569cd6'];
+                        const colorClass = `event-color-${index % colors.length}`;
+                        const worksList = event.works.split('\n').filter(line => line.trim()).join(', ');
+                        
+                        return `
+                            <div class="timeline-item">
+                                <div class="timeline-marker ${colorClass}"></div>
+                                <div class="timeline-content ${colorClass}">
+                                    <h3>${event.title}</h3>
+                                    ${event.date ? `<p style="margin: 0.25rem 0;"><strong>Date:</strong> ${formatDate(event.date)}</p>` : ''}
+                                    ${event.performer ? `<p style="margin: 0.25rem 0;"><strong>Performers:</strong> ${event.performer}</p>` : ''}
+                                    ${event.location ? `<p style="margin: 0.25rem 0;"><strong>Location:</strong> ${event.location}</p>` : ''}
+                                    ${event.works ? `<p style="margin: 0.25rem 0;"><strong>Works:</strong> ${worksList}</p>` : ''}
+                                    ${event.moreInfo ? `<p class="event-info" style="margin: 0.25rem 0;">*${event.moreInfo}</p>` : ''}
+                                    ${event.videoLink ? `<a href="${event.videoLink}" target="_blank" class="event-video-btn" style="margin-top: 0.5rem;">Watch Video</a>` : ''}
+                                </div>
+                            </div>
+                        `;
+                    }).join('') + '</div>';
+                }
+            })
+            .catch(error => {
+                console.error('Error loading events:', error);
+                document.getElementById('events-container').innerHTML = '<p>Unable to load events.</p>';
+            });
+        
+        function formatDate(dateString) {
+            if (!dateString) return '';
+            const date = new Date(dateString);
+            const months = ['January', 'February', 'March', 'April', 'May', 'June', 
+                          'July', 'August', 'September', 'October', 'November', 'December'];
+            return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+        }
+    </script>
 </body>
 </html>

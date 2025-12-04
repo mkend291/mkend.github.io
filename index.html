@@ -5,16 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DANIEL KIM - Composer • Arranger • Pianist</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
     <nav class="navbar">
         <div class="nav-container">
-            <div class="logo">DANIEL KIM</div>
+            <a href="index.html" class="logo">DANIEL KIM</a>
             <ul class="nav-menu">
                 <li><a href="index.html" class="nav-link active">Home</a></li>
                 <li><a href="works.html" class="nav-link">Works</a></li>
                 <li><a href="requests.html" class="nav-link">Requests</a></li>
-                <li><a href="events.html" class="nav-link">Events</a></li>
+                <li class="dropdown">
+                    <a href="#" class="nav-link">More ▾</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="events.html" class="dropdown-link">Events</a></li>
+                        <li><a href="converter.html" class="dropdown-link">Text to Music Converter</a></li>
+                        <li><a href="chord-progression.html" class="dropdown-link">Chord Progression Generator</a></li>
+                    </ul>
+                </li>
             </ul>
         </div>
     </nav>
@@ -33,26 +41,24 @@
                     <div class="hero-buttons">
                         <a href="works.html" class="profile-btn works-btn">Works</a>
                         <a href="requests.html" class="profile-btn requests-btn">Requests</a>
-                        <a href="events.html" class="profile-btn events-btn">Events</a>
+                        <a href="#about" class="profile-btn events-btn">About</a>
                     </div>
                 </div>
             </div>
         </section>
 
         <section class="content">
-            <h2>YouTube Videos</h2>
-            <div class="video-container">
-                <iframe 
-                    src="https://www.youtube.com/embed/videoseries?list=PLIHYGUgW_85utfrpKE93jfzaDp8JV3KwA&listType=playlist" 
-                    title="YouTube video player" 
-                    frameborder="0" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                    allowfullscreen>
-                </iframe>
+            <h2>Featured Videos</h2>
+            <div class="video-scroll-container">
+                <button class="scroll-btn scroll-left" onclick="scrollVideos('left')">&#8249;</button>
+                <div class="video-carousel" id="videoCarousel">
+                    <p style="color: #7db8ff; text-align: center;">Loading videos...</p>
+                </div>
+                <button class="scroll-btn scroll-right" onclick="scrollVideos('right')">&#8250;</button>
             </div>
         </section>
 
-        <section class="content">
+        <section class="content" id="about">
             <h2>About</h2>
             <div id="bio-content">
                 <p>Loading...</p>
@@ -63,12 +69,12 @@
             <h2>Get in Touch</h2>
             <div class="contact-info">
                 <p><strong>Phone:</strong> <a href="tel:7139797934">(713) 979-7934</a> (text preferred)</p>
-                <p><strong>Email:</strong> <a href="mailto:parakeetpress@gmail.com">parakeetpress@gmail.com</a></p>
+                <p><strong>Email:</strong> <a href="mailto:dankim291@icloud.com">dankim291@icloud.com</a></p>
             </div>
             <div class="social-links">
-                <a href="https://www.youtube.com/@dankim291" target="_blank">YouTube</a>
-                <a href="https://discord.gg/xzfkabWsRA" target="_blank">Discord</a>
-                <a href="https://www.instagram.com/dankim291/" target="_blank">Instagram</a>
+                <a href="https://www.youtube.com/@dankim291" target="_blank"><i class="fab fa-youtube"></i> YouTube</a>
+                <a href="https://discord.gg/xzfkabWsRA" target="_blank"><i class="fab fa-discord"></i> Discord</a>
+                <a href="https://www.instagram.com/dankim291/" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
             </div>
         </section>
     </main>
@@ -78,12 +84,19 @@
     </footer>
 
     <script>
+        // Scroll to top on page load
+        if (window.location.hash !== '#about') {
+            window.scrollTo(0, 0);
+        }
+
         // Load bio from WebsiteBio.txt file
-        fetch('WebsiteBio.txt')
+        fetch('WebsiteBio.txt', {
+            cache: 'no-store'
+        })
             .then(response => response.text())
             .then(text => {
-                // Split by double line breaks to create paragraphs
-                const paragraphs = text.trim().split('\n').filter(line => line.trim() !== '');
+                // Split by single line breaks to get paragraphs
+                const paragraphs = text.trim().split('\n').filter(p => p.trim().length > 0);
                 const bioHTML = paragraphs.map(p => `<p>${p.trim()}</p>`).join('');
                 document.getElementById('bio-content').innerHTML = bioHTML;
             })
@@ -91,6 +104,63 @@
                 console.error('Error loading bio:', error);
                 document.getElementById('bio-content').innerHTML = '<p>Unable to load bio content.</p>';
             });
+
+        // Load videos from WebsiteFeaturedVideos.txt file
+        fetch('WebsiteFeaturedVideos.txt', {
+            cache: 'no-store'
+        })
+            .then(response => response.text())
+            .then(text => {
+                const lines = text.trim().split('\n').filter(line => line.trim().length > 0);
+                const videoCarousel = document.getElementById('videoCarousel');
+                videoCarousel.innerHTML = '';
+                
+                lines.forEach(line => {
+                    // Extract video ID from various YouTube URL formats
+                    let videoId = line.trim();
+                    
+                    // Handle youtu.be links
+                    if (videoId.includes('youtu.be/')) {
+                        videoId = videoId.split('youtu.be/')[1].split('?')[0];
+                    }
+                    // Handle youtube.com/watch?v= links
+                    else if (videoId.includes('watch?v=')) {
+                        videoId = videoId.split('watch?v=')[1].split('&')[0];
+                    }
+                    // Handle youtube.com/embed/ links
+                    else if (videoId.includes('/embed/')) {
+                        videoId = videoId.split('/embed/')[1].split('?')[0];
+                    }
+                    
+                    const videoItem = document.createElement('div');
+                    videoItem.className = 'video-item';
+                    videoItem.innerHTML = `
+                        <iframe 
+                            src="https://www.youtube.com/embed/${videoId}" 
+                            title="YouTube video player" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen>
+                        </iframe>
+                    `;
+                    videoCarousel.appendChild(videoItem);
+                });
+            })
+            .catch(error => {
+                console.error('Error loading videos:', error);
+                document.getElementById('videoCarousel').innerHTML = '<p style="color: #7db8ff;">Unable to load videos.</p>';
+            });
+
+        // Scroll videos function
+        function scrollVideos(direction) {
+            const carousel = document.getElementById('videoCarousel');
+            const videoWidth = 400 + 24; // video width + gap
+            if (direction === 'left') {
+                carousel.scrollBy({ left: -videoWidth, behavior: 'smooth' });
+            } else {
+                carousel.scrollBy({ left: videoWidth, behavior: 'smooth' });
+            }
+        }
     </script>
 </body>
 </html>

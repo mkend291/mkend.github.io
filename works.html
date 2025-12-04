@@ -9,12 +9,19 @@
 <body>
     <nav class="navbar">
         <div class="nav-container">
-            <div class="logo">DANIEL KIM</div>
+            <a href="index.html" class="logo">DANIEL KIM</a>
             <ul class="nav-menu">
                 <li><a href="index.html" class="nav-link">Home</a></li>
                 <li><a href="works.html" class="nav-link active">Works</a></li>
                 <li><a href="requests.html" class="nav-link">Requests</a></li>
-                <li><a href="events.html" class="nav-link">Events</a></li>
+                <li class="dropdown">
+                    <a href="#" class="nav-link">More ▾</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="events.html" class="dropdown-link">Events</a></li>
+                        <li><a href="converter.html" class="dropdown-link">Text to Music Converter</a></li>
+                        <li><a href="chord-progression.html" class="dropdown-link">Chord Progression Generator</a></li>
+                    </ul>
+                </li>
             </ul>
         </div>
     </nav>
@@ -22,49 +29,65 @@
     <main>
         <section class="content">
             <h1>Works</h1>
-            <p>A collection of my compositions and arrangements.</p>
+            <p id="works-stats">Loading...</p>
             
-            <div class="works-list">
-                <div class="work-item">
-                    <h3>Aurora | UMich Philharmonic Orchestra</h3>
-                    <p class="work-description">Written for my MM Composition Master's Thesis at the University of Michigan studying with Prof. Michael Daugherty. Performed by the University of Michigan Philharmonic Orchestra, Conducted by Evan Hagen</p>
-                    <p class="work-date">February 13, 2025</p>
-                    <iframe width="100%" height="315" src="https://www.youtube.com/embed/-xzdthOCYpQ" title="Aurora | UMich Philharmonic Orchestra" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            <!-- Year Navigation -->
+            <div id="year-navigation"></div>
+            
+            <!-- Filters -->
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="type-filter">Type:</label>
+                    <select id="type-filter" onchange="applyFilters()">
+                        <option value="all">All</option>
+                        <option value="concert">Concert Music</option>
+                        <option value="media">Media Music</option>
+                        <option value="arrangement">Arrangement</option>
+                    </select>
                 </div>
-
-                <div class="work-item">
-                    <h3>Duality | Daniel Y. Kim x Daniel S. Kim</h3>
-                    <p class="work-description">A collaborative piece written and performed with Daniel Y. Kim. Can you tell which section I wrote?</p>
-                    <p class="work-date">February 10, 2025</p>
-                    <iframe width="100%" height="315" src="https://www.youtube.com/embed/QLJfAUVPLwM" title="Duality | Daniel Y. Kim x Daniel S. Kim" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                <div class="filter-group">
+                    <label for="instrument-filter">Instrument:</label>
+                    <select id="instrument-filter" onchange="applyFilters()">
+                        <option value="all">All Instruments</option>
+                    </select>
                 </div>
+            </div>
+            
+            <!-- Works Container -->
+            <div id="works-container">
+                <p>Loading works...</p>
+            </div>
 
-                <div class="work-item">
-                    <h3>Pathways | ISU Wind Symphony</h3>
-                    <p class="work-description">*2024 Red Note Composer Competition Winner* Performed by the Illinois State University Wind Symphony at the RED NOTE Festival. Conductor: Dr. Tony Marinello</p>
-                    <p class="work-date">March 27, 2024</p>
-                    <iframe width="100%" height="315" src="https://www.youtube.com/embed/YZEams68QDs" title="Pathways | ISU Wind Symphony" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                </div>
-
-                <div class="work-item">
-                    <h3>Sail Away! | United States Naval Academy Band</h3>
-                    <p class="work-description">*2022 US Naval Academy Band Composition Competition Winner* Performed at the Armed Forces Day Concert by the United States Naval Academy Band in Annapolis, Maryland</p>
-                    <p class="work-date">May 20, 2023</p>
-                    <iframe width="100%" height="315" src="https://www.youtube.com/embed/OGjiXD7dr14" title="Sail Away! | United States Naval Academy Band" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                </div>
-
-                <div class="work-item">
-                    <h3>Manor Chase | Chamber Orchestra</h3>
-                    <p class="work-description">Performed by the UT New Music Ensemble</p>
-                    <p class="work-date">April 11, 2022</p>
-                    <iframe width="100%" height="315" src="https://www.youtube.com/embed/1fXE871QcJA" title="Manor Chase | Chamber Orchestra" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                </div>
-
-                <div class="work-item">
-                    <h3>Hahoetal - Bride & Monk | String Quartet</h3>
-                    <p class="work-description">Two excerpts from Hahoetal: a suite for string quartet. Performed at CLUTCH by Josh Liu (Violin), Ellie Sievers (Violin), Casey Boyer (Viola), Hudson Schill (Cello)</p>
-                    <p class="work-date">October 11, 2022</p>
-                    <iframe width="100%" height="315" src="https://www.youtube.com/embed/RjK9FfPWDn8" title="Hahoetal - Bride & Monk | String Quartet" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            <!-- Request Form Overlay -->
+            <div id="work-request-overlay" class="request-overlay">
+                <div class="request-form-container">
+                    <button class="close-btn" onclick="closeWorkRequestForm()">&times;</button>
+                    <h2 id="work-form-title">Request Work</h2>
+                    <form id="work-request-form" onsubmit="submitWorkRequest(event)">
+                        <input type="hidden" id="work-title" name="work-title">
+                        
+                        <div class="form-group">
+                            <label for="work-name">Name *</label>
+                            <input type="text" id="work-name" name="work-name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="work-email">Email *</label>
+                            <input type="email" id="work-email" name="work-email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="work-subject">Subject</label>
+                            <input type="text" id="work-subject" name="work-subject" readonly>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="work-details">Additional Details</label>
+                            <textarea id="work-details" name="work-details" rows="6"></textarea>
+                        </div>
+                        
+                        <button type="submit" class="submit-btn">Submit Request</button>
+                    </form>
                 </div>
             </div>
         </section>
@@ -73,5 +96,317 @@
     <footer>
         <p>&copy; 2025 Daniel Kim. All rights reserved.</p>
     </footer>
-</body>
-</html>
+
+    <script>
+        // Open work request form
+        function openWorkRequestForm(title) {
+            document.getElementById('work-request-overlay').style.display = 'flex';
+            document.getElementById('work-form-title').textContent = 'Request: ' + title;
+            document.getElementById('work-title').value = title;
+            document.getElementById('work-subject').value = 'Requesting ' + title;
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close work request form
+        function closeWorkRequestForm() {
+            document.getElementById('work-request-overlay').style.display = 'none';
+            document.getElementById('work-request-form').reset();
+            document.body.style.overflow = 'auto';
+        }
+
+        // Submit work request
+        function submitWorkRequest(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData);
+            
+            const subject = encodeURIComponent(data['work-subject']);
+            const body = encodeURIComponent(
+                `Name: ${data['work-name']}\n` +
+                `Email: ${data['work-email']}\n\n` +
+                `Additional Details:\n${data['work-details'] || 'None provided'}`
+            );
+            
+            window.location.href = `mailto:dankim291@icloud.com?subject=${subject}&body=${body}`;
+            
+            closeWorkRequestForm();
+        }
+
+        // Close overlay when clicking outside the form
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('work-request-overlay').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeWorkRequestForm();
+                }
+            });
+        });
+
+        // Toggle description expansion
+        function toggleDescription(element) {
+            const description = element.querySelector('.work-description');
+            
+            if (!description) return;
+            
+            if (description.style.display === 'none') {
+                description.style.display = 'block';
+            } else {
+                description.style.display = 'none';
+            }
+        }
+        
+        let currentYear = null;
+        let worksByYear = {};
+        let years = [];
+        
+        // Load works from CSV
+        fetch('WebsiteWorks.csv', {
+            cache: 'no-store'
+        })
+            .then(response => response.text())
+            .then(csvText => {
+                const allWorks = [];
+                
+                // Split into lines but respect quoted fields with newlines
+                function parseCSV(text) {
+                    const result = [];
+                    const rows = [];
+                    let currentField = '';
+                    let currentRow = [];
+                    let insideQuotes = false;
+                    
+                    for (let i = 0; i < text.length; i++) {
+                        const char = text[i];
+                        const nextChar = text[i + 1];
+                        
+                        if (char === '"' && nextChar === '"' && insideQuotes) {
+                            // Escaped quote
+                            currentField += '"';
+                            i++; // Skip next quote
+                        } else if (char === '"') {
+                            insideQuotes = !insideQuotes;
+                        } else if (char === ',' && !insideQuotes) {
+                            currentRow.push(currentField);
+                            currentField = '';
+                        } else if ((char === '\n' || char === '\r') && !insideQuotes) {
+                            if (char === '\r' && nextChar === '\n') {
+                                i++; // Skip \n in \r\n
+                            }
+                            if (currentField || currentRow.length > 0) {
+                                currentRow.push(currentField);
+                                rows.push(currentRow);
+                                currentRow = [];
+                                currentField = '';
+                            }
+                        } else {
+                            currentField += char;
+                        }
+                    }
+                    
+                    // Push last field and row if exists
+                    if (currentField || currentRow.length > 0) {
+                        currentRow.push(currentField);
+                        rows.push(currentRow);
+                    }
+                    
+                    return rows;
+                }
+                
+                const rows = parseCSV(csvText);
+                
+                // Skip first 2 rows (title and header)
+                for (let i = 2; i < rows.length; i++) {
+                    const values = rows[i];
+                    
+                    if (values[0] === 'PUBLISHED' && values.length >= 8) {
+                        const work = {
+                            status: values[0] || '',
+                            title: values[1] || '',
+                            instrumentTags: values[2] || '',
+                            instruments: values[3] || '',
+                            description: values[4] || '',
+                            duration: values[5] || '',
+                            orderDate: values[6] || '',
+                            year: values[7] || (values[6] ? new Date(values[6]).getFullYear().toString() : ''),
+                            videoLink: values[8] || '',
+                            scoreLink: values[9] || '',
+                            movements: values[10] || '',
+                            commission: values[11] || '',
+                            playlist: values[12] || '',
+                            isArrangement: values[13] || ''
+                        };
+                        allWorks.push(work);
+                    }
+                }
+                
+                // Group works by year
+                allWorks.forEach(work => {
+                    const year = work.year || 'Unknown';
+                    if (!worksByYear[year]) {
+                        worksByYear[year] = [];
+                    }
+                    worksByYear[year].push(work);
+                });
+                
+                // Sort each year's works by date
+                Object.keys(worksByYear).forEach(year => {
+                    worksByYear[year].sort((a, b) => {
+                        const dateA = new Date(a.orderDate);
+                        const dateB = new Date(b.orderDate);
+                        return dateB - dateA;
+                    });
+                });
+                
+                // Get sorted years (most recent first)
+                years = Object.keys(worksByYear).sort((a, b) => {
+                    if (a === 'Unknown') return 1;
+                    if (b === 'Unknown') return -1;
+                    return parseInt(b) - parseInt(a);
+                });
+                
+                // Set initial year
+                currentYear = years[0];
+                
+                // Calculate and display stats
+                const totalWorks = allWorks.length;
+                const totalMinutes = allWorks.reduce((sum, work) => {
+                    const duration = parseFloat(work.duration) || 0;
+                    return sum + duration;
+                }, 0);
+                const totalHours = (totalMinutes / 60).toFixed(1);
+                
+                document.getElementById('works-stats').textContent = `${totalWorks} works • ${totalHours} hours of music`;
+                
+                // Populate instrument filter
+                const instrumentTags = new Set();
+                allWorks.forEach(work => {
+                    const tags = work.instrumentTags.replace(/[\[\]]/g, '').split(',');
+                    tags.forEach(tag => {
+                        const trimmedTag = tag.trim();
+                        if (trimmedTag && trimmedTag.toLowerCase() !== 'media music') {
+                            instrumentTags.add(trimmedTag);
+                        }
+                    });
+                });
+                
+                const instrumentFilter = document.getElementById('instrument-filter');
+                Array.from(instrumentTags).sort().forEach(tag => {
+                    const option = document.createElement('option');
+                    option.value = tag;
+                    option.textContent = tag;
+                    instrumentFilter.appendChild(option);
+                });
+                
+                // Display navigation
+                displayNavigation();
+                
+                // Display works for current year
+                displayYear(currentYear);
+            })
+            .catch(error => {
+                console.error('Error loading works:', error);
+                document.getElementById('works-container').innerHTML = '<p>Unable to load works.</p>';
+            });
+        
+        function displayNavigation() {
+            const nav = document.getElementById('year-navigation');
+            const currentIndex = years.indexOf(currentYear);
+            
+            nav.innerHTML = `
+                <div class="year-nav">
+                    <button class="nav-btn" onclick="prevYear()" ${currentIndex === 0 ? 'disabled' : ''}>← Previous</button>
+                    <span class="year-display">${currentYear}</span>
+                    <button class="nav-btn" onclick="nextYear()" ${currentIndex === years.length - 1 ? 'disabled' : ''}>Next →</button>
+                </div>
+            `;
+        }
+        
+        function displayYear(year) {
+            const works = worksByYear[year];
+            const container = document.getElementById('works-container');
+            
+            if (!works || works.length === 0) {
+                container.innerHTML = '<p>No works for this year.</p>';
+                return;
+            }
+            
+            // Apply filters
+            const typeFilter = document.getElementById('type-filter').value;
+            const instrumentFilter = document.getElementById('instrument-filter').value;
+            
+            const filteredWorks = works.filter(work => {
+                // Parse instrument tags
+                const tags = work.instrumentTags.replace(/[\[\]]/g, '').split(',').map(t => t.trim());
+                
+                // Type filter
+                const isMediaMusic = tags.some(tag => tag.toLowerCase() === 'media music');
+                const arrangementValue = work.isArrangement ? work.isArrangement.replace(/[\[\]]/g, '').trim().toLowerCase() : '';
+                const isArrangement = arrangementValue === 'arrangement';
+                
+                if (typeFilter === 'concert' && (isMediaMusic || isArrangement)) return false;
+                if (typeFilter === 'media' && (!isMediaMusic || isArrangement)) return false;
+                if (typeFilter === 'arrangement' && !isArrangement) return false;
+                
+                // Instrument filter
+                if (instrumentFilter !== 'all') {
+                    if (!tags.includes(instrumentFilter)) return false;
+                }
+                
+                return true;
+            });
+            
+            if (filteredWorks.length === 0) {
+                container.innerHTML = '<p>No works match the selected filters.</p>';
+                return;
+            }
+            
+            container.innerHTML = `
+                <div class="year-container">
+                    <div class="works-list">
+                        ${filteredWorks.map((work, index) => {
+                            const colors = ['#6a9955', '#d4a959', '#ce9178', '#c586c0', '#4ec9b0', '#569cd6'];
+                            const colorClass = `work-color-${index % colors.length}`;
+                            return `
+                            <div class="work-item ${colorClass}">
+                                <div class="work-main">
+                                    <div class="work-info">
+                                        <h3>${work.title || ''}</h3>
+                                        <p class="work-instrumentation">${work.instruments || ''}${work.duration && work.duration.trim() ? ' (' + work.duration + ' min)' : ''}</p>
+                                    </div>
+                                    <div class="work-actions">
+                                        ${work.description && work.description.trim() ? `<button class="action-btn description-btn" onclick="toggleDescription(this.closest('.work-item'))">Info</button>` : ''}
+                                        ${work.scoreLink && work.scoreLink.trim() ? `<a href="${work.scoreLink}" target="_blank" class="action-btn score-btn">Score</a>` : ''}
+                                        ${(work.videoLink && work.videoLink.trim()) || (work.playlist && work.playlist.trim()) ? `<a href="${work.videoLink && work.videoLink.trim() ? work.videoLink : work.playlist}" target="_blank" class="action-btn video-btn">Video</a>` : ''}
+                                        ${!work.scoreLink || !work.scoreLink.trim() ? `<button class="action-btn request-btn" onclick="openWorkRequestForm('${work.title.replace(/'/g, "\\'")}')">Request</button>` : ''}
+                                    </div>
+                                </div>
+                                ${work.description && work.description.trim() ? `<div class="work-description" style="display: none;">${work.description}</div>` : ''}
+                            </div>
+                        `}).join('')}
+                    </div>
+                </div>
+            `;
+        }
+        
+        function prevYear() {
+            const currentIndex = years.indexOf(currentYear);
+            if (currentIndex > 0) {
+                currentYear = years[currentIndex - 1];
+                displayNavigation();
+                displayYear(currentYear);
+            }
+        }
+        
+        function nextYear() {
+            const currentIndex = years.indexOf(currentYear);
+            if (currentIndex < years.length - 1) {
+                currentYear = years[currentIndex + 1];
+                displayNavigation();
+                displayYear(currentYear);
+            }
+        }
+        
+        function applyFilters() {
+            displayYear(currentYear);
+        }
+    </script>

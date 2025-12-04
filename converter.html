@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text to Music Converter - DANIEL KIM</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/midi-writer-js@2.0.0/build/index.min.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">DANIEL KIM</a>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="works.html" class="nav-link">Works</a></li>
+                <li><a href="requests.html" class="nav-link">Requests</a></li>
+                <li class="dropdown">
+                    <a href="#" class="nav-link">More ▾</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="events.html" class="dropdown-link">Events</a></li>
+                        <li><a href="converter.html" class="dropdown-link">Text to Music Converter</a></li>
+                        <li><a href="chord-progression.html" class="dropdown-link">Chord Progression Generator</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <section class="content">
+            <h1>Text to Music Converter</h1>
+            <p style="color: #cccccc; margin-bottom: 1rem;">Convert text into musical notation using letter-to-note mapping.</p>
+            
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <img src="websitenamecipher.png" alt="Name Cipher Guide" style="max-width: 100%; height: auto; border-radius: 8px;">
+            </div>
+            
+            <div class="converter-container">
+                <div class="converter-input-section">
+                    <label for="text-input">Enter Your Text:</label>
+                    <textarea id="text-input" placeholder="Type any text here..." rows="6"></textarea>
+                    
+                    <div class="converter-options">
+                        <div class="option-group">
+                            <label for="octave-select">Octave:</label>
+                            <select id="octave-select">
+                                <option value="3">3</option>
+                                <option value="4" selected>4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                            </select>
+                        </div>
+                        
+                        <div class="option-group">
+                            <label for="duration-select">Note Duration:</label>
+                            <select id="duration-select">
+                                <option value="1">Whole</option>
+                                <option value="2">Half</option>
+                                <option value="4" selected>Quarter</option>
+                                <option value="8">Eighth</option>
+                                <option value="16">Sixteenth</option>
+                            </select>
+                        </div>
+                        
+                        <div class="option-group">
+                            <label for="key-select">Key Signature:</label>
+                            <select id="key-select">
+                                <option value="C">C Major / A Minor</option>
+                                <option value="G">G Major / E Minor (1♯)</option>
+                                <option value="D">D Major / B Minor (2♯)</option>
+                                <option value="A">A Major / F# Minor (3♯)</option>
+                                <option value="E">E Major / C# Minor (4♯)</option>
+                                <option value="B">B Major / G# Minor (5♯)</option>
+                                <option value="F#">F# Major / D# Minor (6♯)</option>
+                                <option value="C#">C# Major / A# Minor (7♯)</option>
+                                <option value="F">F Major / D Minor (1♭)</option>
+                                <option value="Bb">Bb Major / G Minor (2♭)</option>
+                                <option value="Eb">Eb Major / C Minor (3♭)</option>
+                                <option value="Ab">Ab Major / F Minor (4♭)</option>
+                                <option value="Db">Db Major / Bb Minor (5♭)</option>
+                                <option value="Gb">Gb Major / Eb Minor (6♭)</option>
+                                <option value="Cb">Cb Major / Ab Minor (7♭)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="option-group">
+                            <label for="tempo-input">Tempo (BPM): <span id="tempo-value">120</span></label>
+                            <input type="range" id="tempo-input" min="40" max="240" value="120" step="1">
+                        </div>
+                        
+                        <div class="option-group checkbox-group">
+                            <label>
+                                <input type="checkbox" id="loop-toggle">
+                                <span>Loop Playback</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <button id="convert-btn" class="converter-btn">Convert to Music</button>
+                </div>
+                
+                <div class="converter-output-section">
+                    <h3>Musical Output:</h3>
+                    <div id="music-output" class="music-output">
+                        <p style="color: #888;">Your converted notes will appear here...</p>
+                    </div>
+                    
+                    <div class="output-actions">
+                        <button id="play-btn" class="converter-btn" disabled>Play</button>
+                        <button id="download-btn" class="converter-btn" disabled>Download MIDI</button>
+                        <button id="copy-btn" class="converter-btn" disabled>Copy Notes</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="converter-info">
+                <h3>How It Works</h3>
+                <p>This tool maps letters A-G to their corresponding musical notes. Letters H-Z wrap around (H=A, I=B, etc.).</p>
+                <ul>
+                    <li><strong>A</strong> = A, H, O, V</li>
+                    <li><strong>B</strong> = B, I, P, W</li>
+                    <li><strong>C</strong> = C, J, Q, X</li>
+                    <li><strong>D</strong> = D, K, R, Y</li>
+                    <li><strong>E</strong> = E, L, S, Z</li>
+                    <li><strong>F</strong> = F, M, T</li>
+                    <li><strong>G</strong> = G, N, U</li>
+                    <li><strong>Spaces</strong> = Rests</li>
+                </ul>
+            </div>
+            
+            <div class="converter-demo">
+                <h3>Example</h3>
+                <div class="demo-video">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/DU-ZaBiR-Ls" 
+                            title="YouTube video player" frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Daniel Kim. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let convertedNotes = [];
+        let audioContext = null;
+        let isPlaying = false;
+        let shouldLoop = false;
+        let currentPlaybackId = null;
+        let scheduledNodes = []; // Track all scheduled audio nodes
+        
+        // Update tempo display
+        document.getElementById('tempo-input').addEventListener('input', function() {
+            document.getElementById('tempo-value').textContent = this.value;
+        });
+        
+        // Stop all audio playback
+        function stopAllAudio() {
+            isPlaying = false;
+            shouldLoop = false;
+            
+            // Stop all scheduled oscillators
+            scheduledNodes.forEach(node => {
+                try {
+                    if (node.stop) {
+                        node.stop();
+                    }
+                } catch (e) {
+                    // Node may already be stopped
+                }
+            });
+            scheduledNodes = [];
+            
+            // Reset audio context
+            if (audioContext) {
+                try {
+                    audioContext.close().then(() => {
+                        audioContext = null;
+                    });
+                } catch (e) {
+                    audioContext = null;
+                }
+            }
+        }
+        
+        // Initialize audio context on first user interaction
+        function initAudioContext() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            return audioContext;
+        }
+        
+        // Key signature transpositions (semitones from C)
+        function getKeyTransposition(key) {
+            const transpositions = {
+                'C': 0, 'G': 0, 'D': 0, 'A': 0, 'E': 0, 'F': 0, 'Bb': 0, 'Eb': 0
+            };
+            return transpositions[key];
+        }
+        
+        // Apply key signature sharps/flats
+        function applyKeySignature(note, key) {
+            const keySignatures = {
+                'C': {},
+                'G': {'F': 'F#'},
+                'D': {'F': 'F#', 'C': 'C#'},
+                'A': {'F': 'F#', 'C': 'C#', 'G': 'G#'},
+                'E': {'F': 'F#', 'C': 'C#', 'G': 'G#', 'D': 'D#'},
+                'B': {'F': 'F#', 'C': 'C#', 'G': 'G#', 'D': 'D#', 'A': 'A#'},
+                'F#': {'F': 'F#', 'C': 'C#', 'G': 'G#', 'D': 'D#', 'A': 'A#', 'E': 'E#'},
+                'C#': {'F': 'F#', 'C': 'C#', 'G': 'G#', 'D': 'D#', 'A': 'A#', 'E': 'E#', 'B': 'B#'},
+                'F': {'B': 'Bb'},
+                'Bb': {'B': 'Bb', 'E': 'Eb'},
+                'Eb': {'B': 'Bb', 'E': 'Eb', 'A': 'Ab'},
+                'Ab': {'B': 'Bb', 'E': 'Eb', 'A': 'Ab', 'D': 'Db'},
+                'Db': {'B': 'Bb', 'E': 'Eb', 'A': 'Ab', 'D': 'Db', 'G': 'Gb'},
+                'Gb': {'B': 'Bb', 'E': 'Eb', 'A': 'Ab', 'D': 'Db', 'G': 'Gb', 'C': 'Cb'},
+                'Cb': {'B': 'Bb', 'E': 'Eb', 'A': 'Ab', 'D': 'Db', 'G': 'Gb', 'C': 'Cb', 'F': 'Fb'}
+            };
+            
+            const signature = keySignatures[key] || {};
+            return signature[note] || note;
+        }
+        
+        // Letter to note mapping
+        function letterToNote(letter) {
+            const noteMap = {
+                'A': 'A', 'B': 'B', 'C': 'C', 'D': 'D', 'E': 'E', 'F': 'F', 'G': 'G',
+                'H': 'A', 'I': 'B', 'J': 'C', 'K': 'D', 'L': 'E', 'M': 'F', 'N': 'G',
+                'O': 'A', 'P': 'B', 'Q': 'C', 'R': 'D', 'S': 'E', 'T': 'F', 'U': 'G',
+                'V': 'A', 'W': 'B', 'X': 'C', 'Y': 'D', 'Z': 'E'
+            };
+            return noteMap[letter.toUpperCase()] || null;
+        }
+        
+        // Note to frequency conversion (with sharp/flat support)
+        function noteToFrequency(note, octave) {
+            const noteFrequencies = {
+                'C': 0, 'C#': 1, 'Db': 1, 'D': 2, 'D#': 3, 'Eb': 3,
+                'E': 4, 'E#': 5, 'Fb': 4, 'F': 5, 'F#': 6, 'Gb': 6, 
+                'G': 7, 'G#': 8, 'Ab': 8, 'A': 9, 'A#': 10, 'Bb': 10, 
+                'B': 11, 'B#': 0, 'Cb': 11
+            };
+            let semitone = noteFrequencies[note];
+            
+            // Handle E# and B# (next octave) and Fb and Cb (previous notes)
+            if (note === 'B#') {
+                octave += 1;
+            }
+            
+            return 440 * Math.pow(2, (semitone - 9 + (octave - 4) * 12) / 12);
+        }
+        
+        // Convert text to notes
+        document.getElementById('convert-btn').addEventListener('click', function() {
+            const text = document.getElementById('text-input').value;
+            const octave = document.getElementById('octave-select').value;
+            const duration = document.getElementById('duration-select').value;
+            const key = document.getElementById('key-select').value;
+            
+            if (!text.trim()) {
+                alert('Please enter some text first!');
+                return;
+            }
+            
+            convertedNotes = [];
+            let outputHTML = '<div class="note-sequence">';
+            
+            for (let char of text) {
+                if (char === ' ') {
+                    convertedNotes.push({ type: 'rest', duration: duration });
+                    outputHTML += `<span class="note-item rest">Rest</span>`;
+                } else if (/[a-zA-Z]/.test(char)) {
+                    const note = letterToNote(char);
+                    if (note) {
+                        const adjustedNote = applyKeySignature(note, key);
+                        convertedNotes.push({ note: adjustedNote, octave: parseInt(octave), duration: parseInt(duration) });
+                        outputHTML += `<span class="note-item">${adjustedNote}${octave}</span>`;
+                    }
+                }
+            }
+            
+            outputHTML += '</div>';
+            document.getElementById('music-output').innerHTML = outputHTML;
+            
+            // Enable buttons
+            document.getElementById('play-btn').disabled = false;
+            document.getElementById('download-btn').disabled = false;
+            document.getElementById('copy-btn').disabled = false;
+        });
+        
+        // Play notes with Web Audio API
+        async function playSequence() {
+            const ctx = initAudioContext();
+            if (ctx.state === 'suspended') {
+                await ctx.resume();
+            }
+            
+            const tempo = parseInt(document.getElementById('tempo-input').value);
+            const beatDuration = 60 / tempo; // Duration of quarter note in seconds
+            
+            let time = ctx.currentTime;
+            
+            for (let noteData of convertedNotes) {
+                if (!isPlaying) break; // Stop if playback was cancelled
+                
+                if (noteData.type === 'rest') {
+                    time += (beatDuration * 4) / noteData.duration;
+                } else {
+                    const frequency = noteToFrequency(noteData.note, noteData.octave);
+                    const duration = (beatDuration * 4) / noteData.duration;
+                    
+                    // Create oscillator for this note
+                    const oscillator = ctx.createOscillator();
+                    const gainNode = ctx.createGain();
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(ctx.destination);
+                    
+                    oscillator.frequency.value = frequency;
+                    oscillator.type = 'sine';
+                    
+                    // Envelope
+                    gainNode.gain.setValueAtTime(0, time);
+                    gainNode.gain.linearRampToValueAtTime(0.3, time + 0.01);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, time + duration);
+                    
+                    oscillator.start(time);
+                    oscillator.stop(time + duration);
+                    
+                    // Track this oscillator
+                    scheduledNodes.push(oscillator);
+                    
+                    time += duration;
+                }
+            }
+            
+            return (time - ctx.currentTime) * 1000;
+        }
+        
+        document.getElementById('play-btn').addEventListener('click', async function() {
+            // If already playing, stop everything
+            if (isPlaying) {
+                stopAllAudio();
+                this.textContent = 'Play';
+                return;
+            }
+            
+            // Stop any previous playback before starting new one
+            stopAllAudio();
+            
+            shouldLoop = document.getElementById('loop-toggle').checked;
+            isPlaying = true;
+            this.textContent = shouldLoop ? 'Stop Loop' : 'Stop';
+            
+            do {
+                const playbackDuration = await playSequence();
+                if (isPlaying && shouldLoop) {
+                    await new Promise(resolve => setTimeout(resolve, playbackDuration));
+                } else {
+                    await new Promise(resolve => setTimeout(resolve, playbackDuration));
+                    break;
+                }
+            } while (isPlaying && shouldLoop);
+            
+            // Reset button
+            if (isPlaying) {
+                this.textContent = 'Play';
+                isPlaying = false;
+                scheduledNodes = [];
+            }
+        });
+        
+        // Download MIDI file
+        document.getElementById('download-btn').addEventListener('click', function() {
+            const track = new MidiWriter.Track();
+            const tempo = parseInt(document.getElementById('tempo-input').value);
+            
+            // Set tempo
+            track.setTempo(tempo);
+            
+            for (let noteData of convertedNotes) {
+                if (noteData.type === 'rest') {
+                    track.addEvent(new MidiWriter.NoteEvent({
+                        pitch: ['C4'],
+                        duration: `${noteData.duration}`,
+                        velocity: 0
+                    }));
+                } else {
+                    const pitch = `${noteData.note}${noteData.octave}`;
+                    track.addEvent(new MidiWriter.NoteEvent({
+                        pitch: [pitch],
+                        duration: `${noteData.duration}`,
+                        velocity: 100
+                    }));
+                }
+            }
+            
+            const write = new MidiWriter.Writer(track);
+            const midiData = write.buildFile();
+            
+            // Create blob and download
+            const blob = new Blob([midiData], { type: 'audio/midi' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'converted-text.mid';
+            a.click();
+            URL.revokeObjectURL(url);
+        });
+        
+        // Copy notes to clipboard
+        document.getElementById('copy-btn').addEventListener('click', function() {
+            const noteText = convertedNotes.map(n => 
+                n.type === 'rest' ? 'Rest' : `${n.note}${n.octave}`
+            ).join(' ');
+            
+            navigator.clipboard.writeText(noteText).then(() => {
+                const originalText = this.textContent;
+                this.textContent = 'Copied!';
+                setTimeout(() => {
+                    this.textContent = originalText;
+                }, 2000);
+            });
+        });
+    </script>
+</body>
+</html>
