@@ -1870,9 +1870,9 @@ footer {
 }
 
 .footer-bottom {
-        position: static;
-        width: 100%;
-        z-index: 10;
+    position: static;
+    width: 100%;
+    z-index: 10;
 }
 
 @media (max-width: 800px) {
@@ -1881,15 +1881,6 @@ footer {
         width: 100% !important;
         margin-top: 2rem;
     }
-}
-
-@media (max-width: 800px) {
-    footer {
-        position: static !important;
-        width: 100% !important;
-        margin-top: 2rem;
-    }
-}
 }
 
 /* Responsive Design */
@@ -2071,11 +2062,7 @@ footer {
     flex-direction: column;
     gap: 0.5rem;
 }
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1.5rem;
-    justify-items: center;
-    align-items: stretch;
-}
+/* Removed stray grid-template-columns and related properties that were outside a selector */
 .chord-group label {
     font-weight: 500;
     color: #d4d4d4;
