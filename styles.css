@@ -1858,15 +1858,29 @@ main {
 
 /* Footer */
 footer {
-    background-color: #060620;
-    color: #cccccc;
-    text-align: center;
-    padding: 2rem;
-    margin-top: 3rem;
-    border-top: 1px solid #1a1f3a;
+        background-color: #060620;
+        color: #cccccc;
+        text-align: center;
+        padding: 2rem;
+        margin-top: 3rem;
+        border-top: 1px solid #1a1f3a;
         position: static;
         width: 100%;
         z-index: 10;
+}
+
+.footer-bottom {
+        position: static;
+        width: 100%;
+        z-index: 10;
+}
+
+@media (max-width: 800px) {
+    .footer-bottom {
+        position: static !important;
+        width: 100% !important;
+        margin-top: 2rem;
+    }
 }
 
 @media (max-width: 800px) {

@@ -44,18 +44,24 @@
         const params = new URLSearchParams(window.location.search);
         return {
             tag: params.get('tag') || '',
-            custom: params.get('custom') || ''
+            custom: params.get('custom') || '',
+            title: params.get('title') || ''
         };
     }
     function capitalizeWords(str) {
         return str.replace(/\b\w/g, c => c.toUpperCase());
     }
-    const { tag, custom } = getURLParams();
+    const { tag, custom, title } = getURLParams();
     let customTitles = [];
     if (custom) {
         customTitles = custom.split(',').map(s => decodeURIComponent(s));
-        document.title = 'Custom Reel - Media Music';
-        document.getElementById('reel-title').textContent = 'Custom Reel';
+        if (title) {
+            document.title = `${decodeURIComponent(title)} - Media Music`;
+            document.getElementById('reel-title').textContent = decodeURIComponent(title);
+        } else {
+            document.title = 'Custom Reel - Media Music';
+            document.getElementById('reel-title').textContent = 'Custom Reel';
+        }
     } else if (tag) {
         document.title = `${capitalizeWords(tag)} Reel - Media Music`;
         document.getElementById('reel-title').textContent = `${capitalizeWords(tag)} Reel`;

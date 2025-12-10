@@ -34,6 +34,10 @@
             <p>Select tracks below to create your own custom reel. When ready, click "Generate Reel Link" to get a shareable playlist.</p>
             <button type="button" id="generate-reel-btn-top" class="reel-btn" style="margin-bottom:1.5rem;">Generate Reel Link</button>
             <form id="custom-reel-form" style="margin-top:0;">
+                <div style="margin-bottom:1rem;">
+                    <label for="custom-reel-title" style="font-weight:600;display:block;margin-bottom:0.3rem;">Custom Reel Title:</label>
+                    <input type="text" id="custom-reel-title" name="custom-reel-title" placeholder="Enter a title for your reel" style="width:100%;padding:0.5em 1em;border-radius:6px;border:1px solid #569cd6;font-size:1em;">
+                </div>
                 <div class="custom-reel-list" id="track-list" style="display:flex;flex-direction:column;gap:0.5rem;"></div>
                 <button type="button" id="generate-reel-btn" class="reel-btn" style="margin-top:2rem;">Generate Reel Link</button>
             </form>
@@ -129,7 +133,9 @@
             return;
         }
         const titles = checked.map(cb => cb.getAttribute('data-title'));
-        const url = `genre-reel.html?custom=${titles.join(',')}`;
+        const customTitle = encodeURIComponent(document.getElementById('custom-reel-title').value.trim());
+        let url = `genre-reel.html?custom=${titles.join(',')}`;
+        if (customTitle) url += `&title=${customTitle}`;
         window.location.href = url;
     }
     document.getElementById('generate-reel-btn').onclick = handleGenerateReelLink;
